@@ -1,0 +1,20 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+---
+Language: Cpp
+# Force pointers to the type for C++.
+DerivePointerAlignment: false
+PointerAlignment: Left
+
+# BreakBeforeBraces: Custom
+# BraceWrapping:
+#     AfterNamespace: true
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortBlocksOnASingleLine: Empty
+AllowShortLambdasOnASingleLine: Empty
+FixNamespaceComments: true
+# BreakBeforeBraces: Attach
+AlwaysBreakTemplateDeclarations: Yes
+BreakConstructorInitializers: BeforeComma
+AccessModifierOffset: -4
+ColumnLimit: 0
