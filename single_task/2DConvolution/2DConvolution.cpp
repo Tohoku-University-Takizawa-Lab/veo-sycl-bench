@@ -29,11 +29,11 @@ int main(const int argc, const char** argv) {
     std::vector<float> A(size*size);
     init(A, size);
 
-    int problem_bytes = size * size * sizeof(float);
     buffer<float> A_buff(A.data(), range<1>(size * size));
     std::vector<float> B(size*size);
     buffer<float> B_buff(B.data(), range<1>(size * size));
     buffer<int> n_buff(&size, range<1>(1));
+    
     q.submit([&](handler& cgh) {
         auto A_access = A_buff.get_access<access::mode::read_write>(cgh);
         auto B_access = B_buff.get_access<access::mode::read_write>(cgh);
