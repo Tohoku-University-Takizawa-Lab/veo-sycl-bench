@@ -30,17 +30,20 @@ int main(int argc, char** argv) {
     }
     struct veo_thr_ctxt* ctx = veo_context_open(proc);
 
+    auto init_start = chrono::steady_clock::now();
     vector<float> A(size * size);
     init(A, size);
+    vector<float> B(size * size);
+    auto init_end = chrono::steady_clock::now();
 
-    auto data_start = chrono::steady_clock::now();
-    int problem_bytes = size * size * sizeof(float);
+    long problem_bytes = size * size * sizeof(float);
+    auto data1_start = chrono::steady_clock::now();
     uint64_t A_ptr;
-    veo_alloc_mem(proc, &A_ptr, problem_bytes);
-    veo_write_mem(proc, A_ptr, (void*)A.data(), problem_bytes);
+    uint64_t ret = veo_alloc_mem(proc, &A_ptr, problem_bytes);
+    ret = veo_write_mem(proc, A_ptr, (void*)A.data(), problem_bytes);
     uint64_t B_ptr;
     veo_alloc_mem(proc, &B_ptr, problem_bytes);
-    auto data_end = chrono::steady_clock::now();
+    auto data1_end = chrono::steady_clock::now();
 
     struct veo_args* argp = veo_args_alloc();
     veo_args_set_i64(argp, 0, A_ptr);
@@ -54,6 +57,10 @@ int main(int argc, char** argv) {
     veo_call_wait_result(ctx, id, &retval);
     auto kernel_end = chrono::steady_clock::now();
 
+    auto data2_start = chrono::steady_clock::now();
+    veo_read_mem(proc, (void*)B.data(), B_ptr, problem_bytes);
+    auto data2_end = chrono::steady_clock::now();
+
     veo_free_mem(proc, A_ptr);
     veo_free_mem(proc, B_ptr);
     veo_args_free(argp);
@@ -62,6 +69,13 @@ int main(int argc, char** argv) {
     veo_proc_destroy(proc);
 
     auto end = chrono::steady_clock::now();
-    cout << "2DConvolution size=" << size << " runtime(" << chrono::duration_cast<chrono::milliseconds>(end - start).count() << ") data(" << chrono::duration_cast<chrono::milliseconds>(data_end - data_start).count() << ") kernel(" << chrono::duration_cast<chrono::milliseconds>(kernel_end - kernel_start).count() << ")" << endl;
+    // cout << "2DConvolution size=" << size << " runtime(" << chrono::duration_cast<chrono::milliseconds>(end - start).count() << ") data(" << chrono::duration_cast<chrono::milliseconds>(data_end - data_start).count() << ") kernel(" << chrono::duration_cast<chrono::milliseconds>(kernel_end - kernel_start).count() << ")" << endl;
+    cout << "2DConvolution size=" << size << " runtime("
+         << chrono::duration_cast<chrono::microseconds>(end - start).count() << ") data("
+         << chrono::duration_cast<chrono::microseconds>(data1_end - data1_start).count() +
+                chrono::duration_cast<chrono::microseconds>(data2_end - data2_start).count()
+         << ") kernel(" << chrono::duration_cast<chrono::microseconds>(kernel_end - kernel_start).count()
+         << ") init(" << chrono::duration_cast<chrono::microseconds>(init_end - init_start).count() << ")"
+         << endl;
     return 0;
 }
