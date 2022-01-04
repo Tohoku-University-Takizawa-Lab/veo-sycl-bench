@@ -14,7 +14,10 @@ int main(int argc, char** argv) {
 
     accelerator_selector as;
     queue q(as);
-
+    if(argc > 2 && argv[2] == std::string("vh")){
+        q = queue();
+    }
+    // queue q;
     std::vector<int> input1(size);
     std::vector<int> input2(size);
     std::vector<int> output(size, 0);
@@ -27,6 +30,8 @@ int main(int argc, char** argv) {
     buffer<int> in2_buff(input2.data(), range<1>(size));
     buffer<int> out_buff(output.data(), range<1>(size));
     buffer<int> n_buff(&size, range<1>(1));
+
+    auto task_start = std::chrono::steady_clock::now();
     q.submit([&](handler& cgh) {
         auto in1_access = in1_buff.get_access<access::mode::read_write>(cgh);
         auto in2_access = in2_buff.get_access<access::mode::read_write>(cgh);
@@ -39,10 +44,14 @@ int main(int argc, char** argv) {
         });
     });
     q.wait();
+    auto task_end = std::chrono::steady_clock::now();
     // for (int i = 0; i < size; ++i) {
     //     std::cout << input1[i] << " + " << input2[i] << " = " << output[i] << std::endl;
     // }
     auto end = std::chrono::steady_clock::now();
-    std::cout << "vec_add size=" << size << " runtime(" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << ")" << std::endl;
+    std::cout << "vec_add size=" << size 
+    << " runtime(" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << ")" 
+    << " task(" << std::chrono::duration_cast<std::chrono::milliseconds>(task_end - task_start).count() << ")" 
+    << std::endl;
     return 0;
 }
