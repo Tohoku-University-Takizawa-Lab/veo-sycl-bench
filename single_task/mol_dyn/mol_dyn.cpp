@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     buffer<int> neb_buff(neighbour.data(), range<1>(size));
     buffer<Atom> out_buff(output.data(), range<1>(size));
     buffer<int> n_buff(&size, range<1>(1));
-
+    auto task_start = std::chrono::steady_clock::now();
     q.submit([&](handler& cgh) {
         auto in_access = in_buff.get_access<access::mode::read_write>(cgh);
         auto out_access = out_buff.get_access<access::mode::read_write>(cgh);
@@ -75,7 +75,11 @@ int main(int argc, char** argv) {
         });
     });
     q.wait();
+    auto task_end = std::chrono::steady_clock::now();
     auto end = std::chrono::steady_clock::now();
-    std::cout << "mol_dyn size=" << size << " runtime(" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << ")" << std::endl;
+    std::cout << "size=" << size 
+    << " runtime(" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << ")" 
+    << " task(" << std::chrono::duration_cast<std::chrono::milliseconds>(task_end - task_start).count() << ")" 
+    << std::endl;
     return 0;
 }

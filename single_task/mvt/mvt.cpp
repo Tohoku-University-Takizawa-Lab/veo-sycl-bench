@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
     buffer<float> y1_buff(y1.data(), range<1>(size));
     buffer<float> y2_buff(y2.data(), range<1>(size));
     buffer<int> n_buff(&size, range<1>(1));
-
+    auto task_start = std::chrono::steady_clock::now();
     q.submit([&](handler& cgh) {
         auto a_access = a_buff.get_access<access::mode::read_write>(cgh);
         auto x1_access = x1_buff.get_access<access::mode::read_write>(cgh);
@@ -65,7 +65,11 @@ int main(int argc, char** argv) {
         });
     });
     q.wait();
+    auto task_end = std::chrono::steady_clock::now();
     auto end = std::chrono::steady_clock::now();
-    std::cout << "mvt size=" << size << " runtime(" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << ")" << std::endl;
+    std::cout << "size=" << size 
+    << " runtime(" << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << ")" 
+    << " task(" << std::chrono::duration_cast<std::chrono::milliseconds>(task_end - task_start).count() << ")" 
+    << std::endl;
     return 0;
 }
