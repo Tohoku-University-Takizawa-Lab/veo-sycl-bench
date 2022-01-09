@@ -16,6 +16,9 @@ int main(int argc, char** argv) {
     queue q(as);
     if(argc > 2 && argv[2] == std::string("vh")){
         q = queue();
+        std::cout << "vh queue\n"; 
+    }else{
+        std::cout << "ve queue\n"; 
     }
     // queue q;
     std::vector<int> input1(size);

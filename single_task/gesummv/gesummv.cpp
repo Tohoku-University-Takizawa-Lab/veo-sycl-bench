@@ -24,7 +24,12 @@ int main(int argc, char** argv) {
 
     accelerator_selector as;
     queue q(as);
-    // queue q;
+    if(argc > 2 && argv[2] == std::string("vh")){
+        q = queue();
+        std::cout << "vh queue\n"; 
+    }else{
+        std::cout << "ve queue\n"; 
+    }
 
     std::vector<float> A(size * size);
     std::vector<float> B(size * size);
