@@ -37,8 +37,9 @@ int main(int argc, char** argv) {
 
     buffer<DATA_TYPE> fict_buffer(fict.data(), range<1>(TMAX));
     buffer<DATA_TYPE, 2> ex_buffer(ex.data(), range<2>(size, size + 1));
-    buffer<DATA_TYPE, 2> ey_buffer(ex.data(), range<2>(size + 1, size));
-    buffer<DATA_TYPE, 2> hz_buffer(hz.data(), range<2>(size + 1, size));
+    buffer<DATA_TYPE, 2> ey_buffer(ey.data(), range<2>(size + 1, size));
+    //buffer<DATA_TYPE, 2> hz_buffer(hz.data(), range<2>(size + 1, size));
+    buffer<DATA_TYPE, 2> hz_buffer(hz.data(), range<2>(size, size));
 
     queue device_queue;
     for (size_t t = 0; t < TMAX; t++) {
@@ -60,7 +61,7 @@ int main(int argc, char** argv) {
         device_queue.submit([&](handler& cgh) {
             auto ex = ex_buffer.get_access<access::mode::read_write>(cgh);
             auto hz = hz_buffer.get_access<access::mode::read>(cgh);
-            cgh.parallel_for<class Fdtd2d2>(range<2>(size, size), [=, NX_ = size, NY_ = size](item<2> item) {
+           cgh.parallel_for<class Fdtd2d2>(range<2>(size, size), [=, NX_ = size, NY_ = size](item<2> item) {
                 const auto i = item[0];
                 const auto j = item[1];
                 if (j > 0)

@@ -9,23 +9,13 @@ using DATA_TYPE = float;
 constexpr DATA_TYPE ALPHA = 1;
 constexpr DATA_TYPE BETA = 1;
 
-void init(DATA_TYPE* A, DATA_TYPE* B, DATA_TYPE* C, size_t size) {
-    const auto NI = size;
-    const auto NJ = size;
-    const auto NK = size;
-    for (size_t i = 0; i < NI; i++) {
-        for (size_t j = 0; j < NK; j++) {
-            A[i * NK + j] = ((DATA_TYPE)i * j) / NI;
-        }
-    }
-    for (size_t i = 0; i < NK; i++) {
-        for (size_t j = 0; j < NJ; j++) {
-            B[i * NJ + j] = ((DATA_TYPE)i * j + 1) / NJ;
-        }
-    }
-    for (size_t i = 0; i < NI; i++) {
-        for (size_t j = 0; j < NJ; j++) {
-            C[i * NJ + j] = ((DATA_TYPE)i * j + 2) / NJ;
+void init(DATA_TYPE* A, DATA_TYPE* B, DATA_TYPE* x, size_t size) {
+    const size_t N = size;
+    for (size_t i = 0; i < N; i++) {
+        x[i] = 1;
+        for (size_t j = 0; j < N; j++) {
+            A[i * N + j] = 2;
+            B[i * N + j] = 3;
         }
     }
 }
