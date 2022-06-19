@@ -9,7 +9,7 @@ using namespace std;
 #define FLOAT_N 3214212.01
 #define EPS 0.005
 
-void init_arrays(vector<float> data, size_t size) {
+void init_arrays(vector<float>& data, size_t size) {
     const size_t M = size;
     const size_t N = size;
     for (size_t i = 0; i <= M; i++) {

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void init_array(vector<float> A, size_t size) {
+void init_array(vector<float>& A, size_t size) {
     const size_t M = 0;
     const size_t N = 0;
     for (size_t i = 0; i < M; i++) {

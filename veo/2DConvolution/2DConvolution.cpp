@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void init(vector<float> A, size_t size) {
+void init(vector<float>& A, size_t size) {
     const size_t NI = size;
     const size_t NJ = size;
     for (size_t i = 0; i < NI; ++i) {
