@@ -68,6 +68,7 @@ int main(int argc, char** argv) {
     uint64_t kernel_mvt = veo_get_sym(proc, handle, "kernel_mvt");
     uint64_t id = veo_call_async(ctx, kernel_mvt, argp);
     uint64_t retval;
+    veo_call_wait_result(ctx, id, &retval);
     auto kernel_end = chrono::steady_clock::now();
 
     veo_free_mem(proc, a_ptr);
