@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void init_arrays(vector<float> a, vector<float> x1, vector<float> x2, vector<float> y_1, vector<float> y_2, size_t size) {
+void init_arrays(vector<float>& a, vector<float>& x1, vector<float>& x2, vector<float>& y_1, vector<float>& y_2, size_t size) {
     const size_t N = size;
     for (size_t i = 0; i < N; i++) {
         x1[i] = 0.0;

@@ -10,7 +10,7 @@ using namespace std;
 #define M_PI 3.14159
 #endif
 
-void init_array(vector<float> A, vector<float> p, vector<float> r, size_t size) {
+void init_array(vector<float>& A, vector<float>& p, vector<float>& r, size_t size) {
     const size_t NX = size;
     const size_t NY = size;
     for (size_t i = 0; i < NX; i++) {

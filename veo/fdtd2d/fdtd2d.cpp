@@ -7,7 +7,7 @@
 using namespace std;
 int TMAX = 500;
 
-void init_arrays(vector<float> fict, vector<float> ex, vector<float> ey, vector<float> hz, size_t size) {
+void init_arrays(vector<float>& fict, vector<float>& ex, vector<float>& ey, vector<float>& hz, size_t size) {
     const size_t NX = size;
     const size_t NY = size;
     for (size_t i = 0; i < TMAX; i++) {

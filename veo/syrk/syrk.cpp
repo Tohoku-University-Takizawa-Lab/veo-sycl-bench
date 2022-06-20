@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void init_arrays(vector<float> A, vector<float> C, size_t size) {
+void init_arrays(vector<float>& A, vector<float>& C, size_t size) {
     const size_t N = size;
     const size_t M = size;
     for (size_t i = 0; i < N; i++) {
