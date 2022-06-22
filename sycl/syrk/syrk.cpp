@@ -31,6 +31,8 @@ int main(int argc, char** argv) {
     std::vector<DATA_TYPE> A(size * size);
     std::vector<DATA_TYPE> C(size * size);
 
+    init_arrays(A.data(), C.data(), size);
+
     buffer<DATA_TYPE, 2> A_buffer(A.data(), range<2>(size, size));
     buffer<DATA_TYPE, 2> C_buffer(C.data(), range<2>(size, size));
 
