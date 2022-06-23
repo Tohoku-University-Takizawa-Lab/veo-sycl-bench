@@ -1,22 +1,19 @@
-VEO_HEADER_PATH=/opt/nec/ve/veos/include
-VEO_LIB_PATH=/opt/nec/ve/veos/lib64
-VEFLAGS=-I$(VEO_HEADER_PATH) -lpthread -L$(VEO_LIB_PATH) -Wl,-rpath=$(VEO_LIB_PATH) -lveo
-
-NCC=/opt/nec/ve/bin/ncc
-
-CXX=g++
-# CXXFLAGS = -std=c++17 -DDEBUG 
+include ../config.mk
 
 TARGET = 2DConvolution kernel.so
 all:$(TARGET)
 
-2DConvolution:2DConvolution.o
+2DConvolution: 2DConvolution.o
 	$(CXX) $< -o $@ $(VEFLAGS)
-2DConvolution.o:2DConvolution.cpp
+2DConvolution.o: 2DConvolution.cpp
 	$(CXX) -c $< -o $@ $(VEFLAGS)
 kernel.so:kernel.c
 	$(NCC) -fpic -shared -o $@ $<
 
 .PHONY: clean
 clean:
-	rm -rf *.o $(TARGET)	
+	rm -rf *.o $(TARGET)
+
+.PHONY: run
+run: $(TARGET)
+	./2DConvolution $(PROBLEM_SIZE)
