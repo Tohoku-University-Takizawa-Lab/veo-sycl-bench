@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     }
     vector<int> neighbour(size);
     for (size_t i = 0; i < size; i++) {
-        neighbour[i] = i + 1;
+        neighbour[i] = (i + 1) % size;
     }
 
     auto data_start = chrono::steady_clock::now();

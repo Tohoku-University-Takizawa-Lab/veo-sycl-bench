@@ -60,6 +60,8 @@ int main(int argc, char** argv) {
     veo_free_mem(proc, features_ptr);
     veo_free_mem(proc, clusters_ptr);
     veo_free_mem(proc, membership_ptr);
+    veo_args_free(argp);
+
     veo_context_close(ctx);
     veo_proc_destroy(proc);
     auto end = chrono::steady_clock::now();

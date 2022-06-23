@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
         input[i] = float4{(float)i, (float)i, (float)i, (float)i}; // Same value for all 4 elements. Could be changed if needed
     }
     for (size_t i = 0; i < size; i++) {
-        neighbour[i] = i + 1;
+        neighbour[i] = (i + 1) % size;
     }
     buffer<float4> input_buf(input.data(), range<1>(size));
     buffer<float4> output_buf(output.data(), range<1>(size));

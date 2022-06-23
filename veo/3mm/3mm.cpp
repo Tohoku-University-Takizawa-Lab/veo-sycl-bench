@@ -5,7 +5,6 @@
 #include <vector>
 
 using namespace std;
-
 void init_array(vector<float>& A, vector<float>& B, vector<float>& C, vector<float>& D, size_t size) {
     const size_t NI = size;
     const size_t NJ = size;
@@ -98,7 +97,11 @@ int main(int argc, char** argv) {
     veo_free_mem(proc, C_ptr);
     veo_free_mem(proc, D_ptr);
     veo_free_mem(proc, E_ptr);
+    veo_free_mem(proc, F_ptr);
+    veo_free_mem(proc, G_ptr);
+
     veo_args_free(argp);
+
     veo_context_close(ctx);
     veo_proc_destroy(proc);
 
